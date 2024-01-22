@@ -10,7 +10,7 @@
 
 const placesList = document.querySelector(".places__list");
 
-function createCard(deleteCard) {
+function createCards() {
   let cardList = [];
   initialCards.forEach((element) => {
     const cardTemplate = document.querySelector("#card-template").content;
@@ -33,7 +33,11 @@ function createCard(deleteCard) {
   return cardList;
 }
 
-// Мне кажется, что криво сделано, нет?
+function createCardElements(deleteCard) {
+  const cards = createCards(deleteCard);
+  return cards;
+}
+
 function deleteCard(deleteButton) {
   deleteButton.addEventListener("click", () => {
     const listItem = deleteButton.closest(".card");
@@ -42,7 +46,7 @@ function deleteCard(deleteButton) {
 }
 
 function postCards() {
-  const cardList = createCard(deleteCard);
+  const cardList = createCardElements(deleteCard);
   cardList.forEach((element) => {
     placesList.append(element);
   });
