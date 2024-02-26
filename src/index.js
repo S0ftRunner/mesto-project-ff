@@ -1,22 +1,35 @@
+// IMPORTS
 import "./pages/index.css";
 import initialCards from "./cards";
+// IMPORTS
+
+// ELEMENTS
 const placesList = document.querySelector(".places__list");
+const popups = document.querySelectorAll('.popup');
 
 const profileAddButton = document.querySelector(".profile__add-button");
-const popupNewCard = document.querySelector(".popup_type_new-card");
+const popupNewCard = document.querySelector('.popup_type_new-card');
 
-const profileEditButton = document.querySelector(".profile__edit-button");
-const popupTypeEdit = document.querySelector(".popup_type_edit");
+const profileEditButton = document.querySelector('.profile__edit-button');
+const popupTypeEdit = document.querySelector('.popup_type_edit');
 
-const closePopupsButtons = document.querySelectorAll(".popup__close");
+const closePopupsButtons = document.querySelectorAll('.popup__close');
+// ELEMENTS
 
+// EVENTS
 profileAddButton.addEventListener("click", () => openAddCardPopup());
 profileEditButton.addEventListener("click", () => openEditProfilePopup());
-
-closePopupsButtons.forEach((closeButton) => {
-  closeButton.addEventListener("click", () => closePopup(closeButton));
+popups.forEach(popup => {
+  popup.addEventListener('click', evt => closePopupByClickOverlay(evt));
+  popup.addEventListener('input', evt => closePopupByEsc(evt));
 });
 
+closePopupsButtons.forEach(closeButton => {
+  closeButton.addEventListener('click', () => closePopup(closeButton));
+});
+// EVENTS
+
+// 
 function createCard(element) {
   const cardTemplate = document.querySelector("#card-template").content;
   const cardElement = cardTemplate.cloneNode(true);
@@ -47,7 +60,7 @@ function postCards() {
 postCards();
 
 function openAddCardPopup() {
-  popupNewCard.classList.add("popup_is-opened");
+  popupNewCard.classList.add('popup_is-opened');
 }
 
 function openEditProfilePopup() {
@@ -55,6 +68,17 @@ function openEditProfilePopup() {
 }
 
 function closePopup(closeButton) {
-  const popup = closeButton.closest(".popup");
-  popup.classList.remove("popup_is-opened");
+  const popup = closeButton.closest('.popup');
+  popup.classList.remove('popup_is-opened');
+}
+
+function closePopupByClickOverlay(evt) {
+  if (!evt.target.classList.contains('popup__content')) {
+    evt.target.classList.remove('popup_is-opened');
+  }
+}
+
+// @TODO: реализовать функцию выхода по нажатию Esc
+function closePopupByEsc(evt) {
+  console.log(evt.target.value);
 }
