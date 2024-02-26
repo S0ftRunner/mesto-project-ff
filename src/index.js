@@ -1,4 +1,5 @@
-
+import "./pages/index.css";
+import initialCards from "./cards";
 const placesList = document.querySelector(".places__list");
 
 function createCard(element) {
@@ -18,7 +19,7 @@ function createCard(element) {
 }
 
 function deleteCard(deleteButton) {
-  const listItem = deleteButton.closest('.card');
+  const listItem = deleteButton.closest(".card");
   listItem.remove();
 }
 
