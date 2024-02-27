@@ -9,10 +9,13 @@ const popups = document.querySelectorAll(".popup");
 
 const profileAddButton = document.querySelector(".profile__add-button");
 const popupNewCard = document.querySelector(".popup_type_new-card");
-const popupImage = document.querySelector('.popup_type_image');
+
+const popupImage = document.querySelector(".popup_type_image");
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 const popupTypeEdit = document.querySelector(".popup_type_edit");
+const profileTitle = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
 
 const closePopupsButtons = document.querySelectorAll(".popup__close");
 // ELEMENTS
@@ -43,6 +46,7 @@ function createCard(element) {
   cardTitle.textContent = element.name;
 
   deleteButton.addEventListener("click", () => deleteCard(deleteButton));
+  cardImage.addEventListener("click", (evt) => openCardImage(evt, cardImage));
   return cardElement;
 }
 
@@ -67,6 +71,24 @@ function openAddCardPopup() {
 function openEditProfilePopup() {
   popupTypeEdit.classList.add("popup_is-opened");
   document.addEventListener("keydown", closePopupByEsc);
+  setFormProfileAtributes();
+}
+
+function setFormProfileAtributes() {
+  const inputProfileTitle = popupTypeEdit.querySelector('.popup__input_type_name');
+  const inputProfileDescription = popupTypeEdit.querySelector('.popup__input_type_description');
+  inputProfileTitle.value = profileTitle.textContent;
+  inputProfileDescription.value = profileDescription.textContent;
+}
+
+function openCardImage(evt, image) {
+  const popupImageContent = popupImage.querySelector(".popup__image");
+  const popupImageCaption = popupImage.querySelector(".popup__caption");
+  popupImageContent.src = image.src;
+  popupImageContent.alt = image.alt;
+  popupImageCaption.textContent = image.alt;
+  popupImage.classList.add("popup_is-opened");
+  document.addEventListener("keydown", closePopupByEsc);
 }
 
 function closePopup(closeButton) {
@@ -84,11 +106,11 @@ function closePopupByClickOverlay(evt) {
 function closePopupByEsc(evt) {
   const activePopup = document.querySelector(".popup_is-opened");
   if (evt.key === "Escape") {
-    removeListeners(activePopup);
+    removePopup(activePopup);
   }
 }
 
-function removeListeners(form) {
-  form.classList.remove("popup_is-opened");
+function removePopup(popup) {
+  popup.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", closePopupByEsc);
 }
