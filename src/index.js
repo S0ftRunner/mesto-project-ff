@@ -39,12 +39,13 @@ function createCard(element) {
   const deleteButton = cardElement.querySelector(".card__delete-button");
   const cardImage = cardElement.querySelector(".card__image");
   const cardTitle = cardElement.querySelector(".card__title");
+  const cardLikeButton = cardElement.querySelector('.card__like-button');
 
   cardImage.src = element.link;
   cardImage.alt = element.name;
 
   cardTitle.textContent = element.name;
-
+  cardLikeButton.addEventListener("click", () => likeCard(cardLikeButton));
   deleteButton.addEventListener("click", () => deleteCard(deleteButton));
   cardImage.addEventListener("click", (evt) => openCardImage(evt, cardImage));
   return cardElement;
@@ -53,6 +54,10 @@ function createCard(element) {
 function deleteCard(deleteButton) {
   const listItem = deleteButton.closest(".card");
   listItem.remove();
+}
+
+function likeCard(cardLikeButton) {
+  cardLikeButton.classList.toggle('card__like-button_is-active');
 }
 
 function postCards() {
@@ -102,7 +107,6 @@ function closePopupByClickOverlay(evt) {
   }
 }
 
-// @TODO: реализовать функцию выхода по нажатию Esc
 function closePopupByEsc(evt) {
   const activePopup = document.querySelector(".popup_is-opened");
   if (evt.key === "Escape") {
@@ -114,3 +118,6 @@ function removePopup(popup) {
   popup.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", closePopupByEsc);
 }
+
+// @TODO: сделать редактирование атрибутов профиля, добавление новых карточек. Как будет готов основной функционал, то можно будет
+// разделить все по модулям
