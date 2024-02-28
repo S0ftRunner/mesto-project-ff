@@ -3,7 +3,6 @@ import "../pages/index.css";
 import {
   openAddCardPopup,
   openEditProfilePopup,
-  openCardImage,
   closePopupByClickOverlay,
   closePopup,
 } from "./modals";
