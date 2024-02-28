@@ -16,6 +16,9 @@ const profileEditButton = document.querySelector(".profile__edit-button");
 const popupTypeEdit = document.querySelector(".popup_type_edit");
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
+const inputProfileTitle = popupTypeEdit.querySelector('.popup__input_type_name');
+const inputProfileDescription = popupTypeEdit.querySelector('.popup__input_type_description');
+
 
 const closePopupsButtons = document.querySelectorAll(".popup__close");
 // ELEMENTS
@@ -47,7 +50,7 @@ function createCard(element) {
   cardTitle.textContent = element.name;
   cardLikeButton.addEventListener("click", () => likeCard(cardLikeButton));
   deleteButton.addEventListener("click", () => deleteCard(deleteButton));
-  cardImage.addEventListener("click", (evt) => openCardImage(evt, cardImage));
+  cardImage.addEventListener("click", (evt) => openCardImage(cardImage));
   return cardElement;
 }
 
@@ -76,17 +79,17 @@ function openAddCardPopup() {
 function openEditProfilePopup() {
   popupTypeEdit.classList.add("popup_is-opened");
   document.addEventListener("keydown", closePopupByEsc);
-  setFormProfileAtributes();
+  setFormProfileAttributes();
+  const profileForm = popupTypeEdit.querySelector('.popup__form');
+  profileForm.addEventListener('submit', setNewProfileAttributes);
 }
 
-function setFormProfileAtributes() {
-  const inputProfileTitle = popupTypeEdit.querySelector('.popup__input_type_name');
-  const inputProfileDescription = popupTypeEdit.querySelector('.popup__input_type_description');
+function setFormProfileAttributes() {
   inputProfileTitle.value = profileTitle.textContent;
   inputProfileDescription.value = profileDescription.textContent;
 }
 
-function openCardImage(evt, image) {
+function openCardImage(image) {
   const popupImageContent = popupImage.querySelector(".popup__image");
   const popupImageCaption = popupImage.querySelector(".popup__caption");
   popupImageContent.src = image.src;
@@ -119,5 +122,13 @@ function removePopup(popup) {
   document.removeEventListener("keydown", closePopupByEsc);
 }
 
-// @TODO: сделать редактирование атрибутов профиля, добавление новых карточек. Как будет готов основной функционал, то можно будет
+function setNewProfileAttributes(evt) {
+  evt.preventDefault();
+  profileTitle.textContent = inputProfileTitle.value;
+  profileDescription.textContent = inputProfileDescription.value;
+  const popup = inputProfileTitle.closest('.popup');
+  removePopup(popup);
+}
+
+// @TODO: добавление новых карточек. Как будет готов основной функционал, то можно будет
 // разделить все по модулям
