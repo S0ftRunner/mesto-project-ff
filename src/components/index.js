@@ -1,6 +1,13 @@
 // IMPORTS
 import "../pages/index.css";
-import initialCards from "./cards";
+import {
+  openAddCardPopup,
+  openEditProfilePopup,
+  openCardImage,
+  closePopupByClickOverlay,
+  closePopup,
+} from "./modals";
+import { createCard, initialCards } from "./cards";
 // IMPORTS
 
 // ELEMENTS
@@ -42,115 +49,32 @@ closePopupsButtons.forEach((closeButton) => {
 });
 // EVENTS
 
-//
-function createCard(element) {
-  const cardTemplate = document.querySelector("#card-template").content;
-  const cardElement = cardTemplate.cloneNode(true);
-  const deleteButton = cardElement.querySelector(".card__delete-button");
-  const cardImage = cardElement.querySelector(".card__image");
-  const cardTitle = cardElement.querySelector(".card__title");
-  const cardLikeButton = cardElement.querySelector(".card__like-button");
+// функция добавления лайка на картинку
 
-  cardImage.src = element.link;
-  cardImage.alt = element.name;
-
-  cardTitle.textContent = element.name;
-  cardLikeButton.addEventListener("click", () => likeCard(cardLikeButton));
-  deleteButton.addEventListener("click", () => deleteCard(deleteButton));
-  cardImage.addEventListener("click", (evt) => openCardImage(cardImage));
-  return cardElement;
-}
-
-function deleteCard(deleteButton) {
-  const listItem = deleteButton.closest(".card");
-  listItem.remove();
-}
-
-function likeCard(cardLikeButton) {
-  cardLikeButton.classList.toggle("card__like-button_is-active");
-}
-
+// вывод начальных карточек на экран
 function postCards() {
   initialCards.forEach((element) => {
     placesList.append(createCard(element));
   });
 }
+// вывод начальных карточек на экран
 
 postCards();
 
-function openAddCardPopup() {
-  popupNewCard.classList.add("popup_is-opened");
-  const cardImageForm = popupNewCard.querySelector(".popup__form");
-  cardImageForm.addEventListener("submit", createUserCard);
-  document.addEventListener("keydown", closePopupByEsc);
-}
-
-function openEditProfilePopup() {
-  popupTypeEdit.classList.add("popup_is-opened");
-  document.addEventListener("keydown", closePopupByEsc);
-  setFormProfileAttributes();
-  const profileForm = popupTypeEdit.querySelector(".popup__form");
-  profileForm.addEventListener("submit", setNewProfileAttributes);
-}
-
-function setFormProfileAttributes() {
-  inputProfileTitle.value = profileTitle.textContent;
-  inputProfileDescription.value = profileDescription.textContent;
-}
-
-function openCardImage(image) {
-  const popupImageContent = popupImage.querySelector(".popup__image");
-  const popupImageCaption = popupImage.querySelector(".popup__caption");
-  popupImageContent.src = image.src;
-  popupImageContent.alt = image.alt;
-  popupImageCaption.textContent = image.alt;
-  popupImage.classList.add("popup_is-opened");
-  document.addEventListener("keydown", closePopupByEsc);
-}
-
-function closePopup(closeButton) {
-  const popup = closeButton.closest(".popup");
-  popup.classList.remove("popup_is-opened");
-}
-
-function closePopupByClickOverlay(evt) {
-  if (!evt.target.classList.contains("popup__content")) {
-    evt.target.classList.remove("popup_is-opened");
-  }
-}
-
-function closePopupByEsc(evt) {
-  const activePopup = document.querySelector(".popup_is-opened");
-  if (evt.key === "Escape") {
-    removePopup(activePopup);
-  }
-}
-
-function removePopup(popup) {
-  popup.classList.remove("popup_is-opened");
-  document.removeEventListener("keydown", closePopupByEsc);
-}
-
-function setNewProfileAttributes(evt) {
-  evt.preventDefault();
-  profileTitle.textContent = inputProfileTitle.value;
-  profileDescription.textContent = inputProfileDescription.value;
-  const popup = inputProfileTitle.closest(".popup");
-  removePopup(popup);
-}
-
-function createUserCard(evt) {
-  const popup = inputNewCardLink.closest('.popup');
-  evt.preventDefault();
-  const newCard = {
-    name: inputNewCardTitle.value,
-    link: inputNewCardLink.value,
-  };
-
-  placesList.prepend(createCard(newCard));
-  removePopup(popup);
-}
+export {
+  inputNewCardTitle,
+  inputNewCardLink,
+  popupNewCard,
+  popupTypeEdit,
+  popupImage,
+  profileTitle,
+  profileDescription,
+  inputProfileTitle,
+  inputProfileDescription,
+  placesList
+};
 
 // @TODO: разделить все по модулям
 // скорее всего разделю на три файла, данные для начальных карт, открытие и закрытие модальных окон,
 // и создание самих карточек
+// что-то надо придумать с openModal и closeModal функциями
