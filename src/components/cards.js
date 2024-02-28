@@ -58,5 +58,7 @@ function deleteCard(deleteButton) {
 function likeCard(cardLikeButton) {
   cardLikeButton.classList.toggle("card__like-button_is-active");
 }
+// функция добавления лайка на картинку
+
 
 export {createCard, initialCards};
