@@ -1,4 +1,4 @@
-import {inputNewCardTitle, inputNewCardLink, popupImage, popupNewCard, popupTypeEdit, profileTitle, profileDescription, inputProfileTitle, inputProfileDescription, placesList} from './index';
+import {inputNewCardTitle, inputNewCardLink, popupImage, popupNewCard, popupTypeEdit, profileTitle, profileDescription, inputProfileTitle, inputProfileDescription, cardsContainer} from './index';
 import { createCard } from './cards';
 // модальное окно добавление карточки
 function openAddCardPopup() {
@@ -85,7 +85,7 @@ function openAddCardPopup() {
       link: inputNewCardLink.value,
     };
   
-    placesList.prepend(createCard(newCard));
+    cardsContainer.prepend(createCard(newCard));
     removePopup(popup);
   }
 

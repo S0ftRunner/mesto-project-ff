@@ -10,7 +10,7 @@ import { createCard, initialCards } from "./cards";
 // IMPORTS
 
 // ELEMENTS
-const placesList = document.querySelector(".places__list");
+const cardsContainer = document.querySelector(".places__list");
 const popups = document.querySelectorAll(".popup");
 
 const profileAddButton = document.querySelector(".profile__add-button");
@@ -52,7 +52,7 @@ closePopupsButtons.forEach((closeButton) => {
 // вывод начальных карточек на экран
 function postCards() {
   initialCards.forEach((element) => {
-    placesList.append(createCard(element));
+    cardsContainer.append(createCard(element));
   });
 }
 // вывод начальных карточек на экран
@@ -69,5 +69,5 @@ export {
   profileDescription,
   inputProfileTitle,
   inputProfileDescription,
-  placesList
+  cardsContainer
 };
