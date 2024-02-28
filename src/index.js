@@ -9,6 +9,10 @@ const popups = document.querySelectorAll(".popup");
 
 const profileAddButton = document.querySelector(".profile__add-button");
 const popupNewCard = document.querySelector(".popup_type_new-card");
+const inputNewCardTitle = popupNewCard.querySelector(
+  ".popup__input_type_card-name"
+);
+const inputNewCardLink = popupNewCard.querySelector(".popup__input_type_url");
 
 const popupImage = document.querySelector(".popup_type_image");
 
@@ -16,9 +20,12 @@ const profileEditButton = document.querySelector(".profile__edit-button");
 const popupTypeEdit = document.querySelector(".popup_type_edit");
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
-const inputProfileTitle = popupTypeEdit.querySelector('.popup__input_type_name');
-const inputProfileDescription = popupTypeEdit.querySelector('.popup__input_type_description');
-
+const inputProfileTitle = popupTypeEdit.querySelector(
+  ".popup__input_type_name"
+);
+const inputProfileDescription = popupTypeEdit.querySelector(
+  ".popup__input_type_description"
+);
 
 const closePopupsButtons = document.querySelectorAll(".popup__close");
 // ELEMENTS
@@ -42,7 +49,7 @@ function createCard(element) {
   const deleteButton = cardElement.querySelector(".card__delete-button");
   const cardImage = cardElement.querySelector(".card__image");
   const cardTitle = cardElement.querySelector(".card__title");
-  const cardLikeButton = cardElement.querySelector('.card__like-button');
+  const cardLikeButton = cardElement.querySelector(".card__like-button");
 
   cardImage.src = element.link;
   cardImage.alt = element.name;
@@ -60,7 +67,7 @@ function deleteCard(deleteButton) {
 }
 
 function likeCard(cardLikeButton) {
-  cardLikeButton.classList.toggle('card__like-button_is-active');
+  cardLikeButton.classList.toggle("card__like-button_is-active");
 }
 
 function postCards() {
@@ -73,6 +80,8 @@ postCards();
 
 function openAddCardPopup() {
   popupNewCard.classList.add("popup_is-opened");
+  const cardImageForm = popupNewCard.querySelector(".popup__form");
+  cardImageForm.addEventListener("submit", createUserCard);
   document.addEventListener("keydown", closePopupByEsc);
 }
 
@@ -80,8 +89,8 @@ function openEditProfilePopup() {
   popupTypeEdit.classList.add("popup_is-opened");
   document.addEventListener("keydown", closePopupByEsc);
   setFormProfileAttributes();
-  const profileForm = popupTypeEdit.querySelector('.popup__form');
-  profileForm.addEventListener('submit', setNewProfileAttributes);
+  const profileForm = popupTypeEdit.querySelector(".popup__form");
+  profileForm.addEventListener("submit", setNewProfileAttributes);
 }
 
 function setFormProfileAttributes() {
@@ -126,9 +135,21 @@ function setNewProfileAttributes(evt) {
   evt.preventDefault();
   profileTitle.textContent = inputProfileTitle.value;
   profileDescription.textContent = inputProfileDescription.value;
-  const popup = inputProfileTitle.closest('.popup');
+  const popup = inputProfileTitle.closest(".popup");
   removePopup(popup);
 }
 
-// @TODO: добавление новых карточек. Как будет готов основной функционал, то можно будет
-// разделить все по модулям
+function createUserCard(evt) {
+  const popup = inputNewCardLink.closest('.popup');
+  console.log("я сработал");
+  evt.preventDefault();
+  const newCard = {
+    name: inputNewCardTitle.value,
+    link: inputNewCardLink.value,
+  };
+
+  placesList.prepend(createCard(newCard));
+  removePopup(popup);
+}
+
+// @TODO: разделить все по модулям
