@@ -141,7 +141,6 @@ function setNewProfileAttributes(evt) {
 
 function createUserCard(evt) {
   const popup = inputNewCardLink.closest('.popup');
-  console.log("я сработал");
   evt.preventDefault();
   const newCard = {
     name: inputNewCardTitle.value,
