@@ -1,5 +1,7 @@
 import {inputNewCardTitle, inputNewCardLink, popupImage, popupNewCard, popupTypeEdit, profileTitle, profileDescription, inputProfileTitle, inputProfileDescription, cardsContainer} from './index';
-import { createCard } from './cards';
+import createCard from './card';
+import { likeCard, deleteCard } from './index';
+
 // модальное окно добавление карточки
 function openAddCardPopup() {
     popupNewCard.classList.add("popup_is-opened");
@@ -85,8 +87,10 @@ function openAddCardPopup() {
       link: inputNewCardLink.value,
     };
   
-    cardsContainer.prepend(createCard(newCard));
+    cardsContainer.prepend(createCard(newCard, likeCard, deleteCard, openCardImage));
     removePopup(popup);
+    inputNewCardLink.value = "";
+    inputNewCardTitle.value = "";
   }
 
   export {openAddCardPopup, openEditProfilePopup, openCardImage, closePopupByClickOverlay, closePopup}

@@ -6,7 +6,10 @@ import {
   closePopupByClickOverlay,
   closePopup,
 } from "./modals";
-import { createCard, initialCards } from "./cards";
+import initialCards  from "./cards";
+import createCard from "./card";
+import { openCardImage } from "./modals";
+
 // IMPORTS
 
 // ELEMENTS
@@ -48,16 +51,27 @@ closePopupsButtons.forEach((closeButton) => {
 });
 // EVENTS
 
-
+  // удаление карточки
+  function deleteCard(deleteButton) {
+    const card = deleteButton.closest(".card");
+    card.remove();
+  }
+  // удаление карточки
+  
+  // функция добавления лайка на картинку
+  function likeCard(cardLikeButton) {
+    cardLikeButton.classList.toggle("card__like-button_is-active");
+  }
+  // функция добавления лайка на картинку
 // вывод начальных карточек на экран
-function postCards() {
-  initialCards.forEach((element) => {
-    cardsContainer.append(createCard(element));
+function renderInitialCards() {
+  initialCards.forEach((card) => {
+    cardsContainer.append(createCard(card, likeCard, deleteCard, openCardImage));
   });
 }
 // вывод начальных карточек на экран
 
-postCards();
+renderInitialCards();
 
 export {
   inputNewCardTitle,
@@ -69,5 +83,7 @@ export {
   profileDescription,
   inputProfileTitle,
   inputProfileDescription,
-  cardsContainer
+  cardsContainer,
+  deleteCard, 
+  likeCard
 };
