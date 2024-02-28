@@ -1,5 +1,5 @@
 // IMPORTS
-import "./pages/index.css";
+import "../pages/imdex.css";
 import initialCards from "./cards";
 // IMPORTS
 
