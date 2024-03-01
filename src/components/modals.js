@@ -1,6 +1,5 @@
 import {inputNewCardTitle, inputNewCardLink, popupImage, popupNewCard, popupTypeEdit, profileTitle, profileDescription, inputProfileTitle, inputProfileDescription, cardsContainer} from './index';
-import createCard from './card';
-import { likeCard, deleteCard } from './index';
+import { likeCard, deleteCard, createCard } from './card';
 
 // модальное окно добавление карточки
 function openAddCardPopup() {

@@ -1,4 +1,3 @@
-
 // создание самой карточки
 function createCard(cardData, likeCard, deleteCard, openCardImage) {
     const cardTemplate = document.querySelector("#card-template").content;
@@ -17,6 +16,19 @@ function createCard(cardData, likeCard, deleteCard, openCardImage) {
     cardImage.addEventListener("click", () => openCardImage(cardImage));
     return cardElement;
   }
+
+    // удаление карточки
+    function deleteCard(deleteButton) {
+      const card = deleteButton.closest(".card");
+      card.remove();
+    }
+    // удаление карточки
+    
+    // функция добавления лайка на картинку
+    function likeCard(cardLikeButton) {
+      cardLikeButton.classList.toggle("card__like-button_is-active");
+    }
+    // функция добавления лайка на картинку
   
   
-  export default createCard;
+  export {createCard, deleteCard, likeCard};

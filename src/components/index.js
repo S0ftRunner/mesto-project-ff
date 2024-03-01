@@ -7,7 +7,7 @@ import {
   closePopup,
 } from "./modals";
 import initialCards  from "./cards";
-import createCard from "./card";
+import { likeCard, deleteCard, createCard } from "./card";
 import { openCardImage } from "./modals";
 
 // IMPORTS
@@ -51,19 +51,9 @@ closePopupsButtons.forEach((closeButton) => {
 });
 // EVENTS
 
-  // удаление карточки
-  function deleteCard(deleteButton) {
-    const card = deleteButton.closest(".card");
-    card.remove();
-  }
-  // удаление карточки
+
   
-  // функция добавления лайка на картинку
-  function likeCard(cardLikeButton) {
-    cardLikeButton.classList.toggle("card__like-button_is-active");
-  }
-  // функция добавления лайка на картинку
-// вывод начальных карточек на экран
+  // вывод начальных карточек на экран
 function renderInitialCards() {
   initialCards.forEach((card) => {
     cardsContainer.append(createCard(card, likeCard, deleteCard, openCardImage));
