@@ -1,4 +1,11 @@
-// создание самой карточки
+/**
+ * Функция создания карточки
+ * @param {card} cardData 
+ * @param {function} likeCard 
+ * @param {function} deleteCard 
+ * @param {function} openCardImage 
+ * @returns 
+ */
 function createCard(cardData, likeCard, deleteCard, openCardImage) {
   const cardTemplate = document.querySelector("#card-template").content;
   const cardElement = cardTemplate.cloneNode(true);
@@ -17,17 +24,21 @@ function createCard(cardData, likeCard, deleteCard, openCardImage) {
   return cardElement;
 }
 
-// удаление карточки
+/**
+ * Функция удаления карточки
+ * @param {button} deleteButton 
+ */
 function deleteCard(deleteButton) {
   const card = deleteButton.closest(".card");
   card.remove();
 }
-// удаление карточки
 
-// функция добавления лайка на картинку
+/**
+ * Функция лайка карточки
+ * @param {button} cardLikeButton 
+ */
 function likeCard(cardLikeButton) {
   cardLikeButton.classList.toggle("card__like-button_is-active");
 }
-// функция добавления лайка на картинку
 
 export { createCard, deleteCard, likeCard };

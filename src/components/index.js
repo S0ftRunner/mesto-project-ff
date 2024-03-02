@@ -8,7 +8,6 @@ import {
 } from "./modals";
 import initialCards from "./cards";
 import { likeCard, deleteCard, createCard } from "./card";
-
 // IMPORTS
 
 // ELEMENTS
@@ -60,7 +59,9 @@ profileForm.addEventListener("submit", handleProfileFormSubmit);
 
 // EVENTS
 
-// вывод начальных карточек на экран
+/**
+ * Рендеринг начальных карт
+ */
 function renderInitialCards() {
   initialCards.forEach((card) => {
     cardsContainer.append(
@@ -68,35 +69,45 @@ function renderInitialCards() {
     );
   });
 }
-// вывод начальных карточек на экран
 
-// модальное окно редактирования профиля
+/**
+ * Модальное окно редактирования профиля
+ */
 function openEditProfilePopup() {
   openPopup(popupTypeEdit);
   setFormProfileAttributes();
 }
-// модальное окно редактирования профиля
 
+/**
+ * Для открытия модального окна добавления карточки
+ */
 function openAddCard() {
   openPopup(popupNewCard);
 }
 
-// установка атрибутов для полей ввода профиля
+/**
+ * Установка атрибутов для полей ввода редактирования профиля
+ */
 function setFormProfileAttributes() {
   inputProfileTitle.value = profileTitle.textContent;
   inputProfileDescription.value = profileDescription.textContent;
 }
-// установка атрибутов для полей ввода профиля
 
-// открытие модального окна карточки
+/**
+ * Для открытия модального окна изображения карточки
+ * @param {image} image 
+ */
 function openCardImage(image) {
   openPopup(popupImage);
   popupImageContent.src = image.src;
   popupImageContent.alt = image.alt;
   popupImageCaption.textContent = image.alt;
 }
-// открытие модального окна карточки
 
+/**
+ * Обработчик на добавление карточки
+ * @param {Event} evt 
+ */
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
   const newCard = {
@@ -108,10 +119,13 @@ function handleCardFormSubmit(evt) {
     createCard(newCard, likeCard, deleteCard, openCardImage)
   );
   closePopup(popupNewCard);
-  inputNewCardLink.value = "";
-  inputNewCardTitle.value = "";
+  cardImageForm.reset();
 }
 
+/**
+ * Обработчик для изменения полей формы редактирования профиля
+ * @param {Event} evt 
+ */
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileTitle.textContent = inputProfileTitle.value;
@@ -120,20 +134,3 @@ function handleProfileFormSubmit(evt) {
 }
 
 renderInitialCards();
-
-export {
-  inputNewCardTitle,
-  inputNewCardLink,
-  popupNewCard,
-  popupTypeEdit,
-  popupImage,
-  popupImageContent,
-  popupImageCaption,
-  profileTitle,
-  profileDescription,
-  inputProfileTitle,
-  inputProfileDescription,
-  cardsContainer,
-  deleteCard,
-  likeCard,
-};
