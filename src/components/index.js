@@ -42,7 +42,7 @@ const closePopupsButtons = document.querySelectorAll(".popup__close");
 // ELEMENTS
 
 // EVENTS
-addCardButton.addEventListener("click", openAddCard);
+addCardButton.addEventListener("click", openAddCardPopup);
 profileEditButton.addEventListener("click", openEditProfilePopup);
 popups.forEach((popup) => {
   popup.addEventListener("click", (evt) => closePopupByClickOverlay(evt));
@@ -81,7 +81,7 @@ function openEditProfilePopup() {
 /**
  * Для открытия модального окна добавления карточки
  */
-function openAddCard() {
+function openAddCardPopup() {
   openPopup(popupNewCard);
 }
 
