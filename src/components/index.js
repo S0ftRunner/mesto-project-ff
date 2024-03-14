@@ -11,7 +11,6 @@ import { likeCard, deleteCard, createCard } from "./card";
 // IMPORTS
 
 // ELEMENTS
-
 const cardImageForm = document.querySelector(".popup__form-new-card");
 const cardsContainer = document.querySelector(".places__list");
 const popups = document.querySelectorAll(".popup");
