@@ -46,10 +46,11 @@
             <input
               type="text"
               name="name"
-              class="popup__input popup__input_type_name"
+              class="popup__input popup__input_type_name popup__input__error-border"
               placeholder="Имя"
               required
             />
+            <span class="popup__input__error-text">текст ошибки</span>
             <input
               type="text"
               name="description"
@@ -57,7 +58,7 @@
               placeholder="Занятие"
               required
             />
-            <button type="submit" class="button popup__button">
+            <button type="submit" class="button popup__button popup__button-disabled">
               Сохранить
             </button>
           </form>
@@ -75,6 +76,7 @@
               placeholder="Название"
               required
             />
+            <span class="popup__input__error-text">текст ошибки</span>
             <input
               type="url"
               name="link"
