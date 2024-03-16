@@ -36,6 +36,10 @@ const inputProfileTitle = popupTypeEdit.querySelector(
 const inputProfileDescription = popupTypeEdit.querySelector(
   ".popup__input_type_description"
 );
+const inputBorderBottomError = document.querySelector(
+  ".popup__input__error-border"
+);
+const errorText = document.querySelector(".popup__input__error-text");
 
 const closePopupsButtons = document.querySelectorAll(".popup__close");
 // ELEMENTS
@@ -94,7 +98,7 @@ function setFormProfileAttributes() {
 
 /**
  * Для открытия модального окна изображения карточки
- * @param {image} image 
+ * @param {image} image
  */
 function openCardImage(image) {
   openPopup(popupImage);
@@ -105,7 +109,7 @@ function openCardImage(image) {
 
 /**
  * Обработчик на добавление карточки
- * @param {Event} evt 
+ * @param {Event} evt
  */
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
@@ -123,13 +127,26 @@ function handleCardFormSubmit(evt) {
 
 /**
  * Обработчик для изменения полей формы редактирования профиля
- * @param {Event} evt 
+ * @param {Event} evt
  */
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  profileTitle.textContent = inputProfileTitle.value;
-  profileDescription.textContent = inputProfileDescription.value;
-  closePopup(popupTypeEdit);
+  if (
+    inputProfileTitle.value.length === 0 &&
+    inputProfileDescription.value.length === 0
+  ) {
+    inputProfileTitle.classList.add(".popup__input__error-border");
+    inputProfileDescription.classList.add(".popup__input__error-border");
+    errorText.textContent = "Введите данное поле";
+  } else {
+    inputProfileTitle.classList.remove(".popup__input__error-border");
+
+    profileTitle.textContent = inputProfileTitle.value;
+    profileDescription.textContent = inputProfileDescription.value;
+    closePopup(popupTypeEdit);
+  }
 }
 
 renderInitialCards();
+
+export { inputProfileTitle, inputProfileDescription };
