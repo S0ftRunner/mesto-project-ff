@@ -1,3 +1,13 @@
+function enableValidation() {
+  const formList = Array.from(document.querySelectorAll(".popup__form"));
+  formList.forEach((formElement) => {
+    setEventListeners(formElement);
+  });
+}
+
+function clearValidation() {
+  
+}
 
 function toggleButtonState(inputList, buttonElement) {
   if (hasInvalidInput(inputList)) {
@@ -50,11 +60,5 @@ function setEventListeners(formElement) {
   });
 }
 
-function enableValidation() {
-  const formList = Array.from(document.querySelectorAll(".popup__form"));
-  formList.forEach((formElement) => {
-    setEventListeners(formElement);
-  });
-}
 
-export { enableValidation };
+export { enableValidation, clearValidation};
