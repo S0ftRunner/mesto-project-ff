@@ -8,6 +8,7 @@ import {
 } from "./modals";
 import initialCards from "./cards";
 import { likeCard, deleteCard, createCard } from "./card";
+import { enableValidation } from "./validation";
 // IMPORTS
 
 // ELEMENTS
@@ -131,22 +132,11 @@ function handleCardFormSubmit(evt) {
  */
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  if (
-    inputProfileTitle.value.length === 0 &&
-    inputProfileDescription.value.length === 0
-  ) {
-    inputProfileTitle.classList.add(".popup__input__error-border");
-    inputProfileDescription.classList.add(".popup__input__error-border");
-    errorText.textContent = "Введите данное поле";
-  } else {
-    inputProfileTitle.classList.remove(".popup__input__error-border");
-
-    profileTitle.textContent = inputProfileTitle.value;
-    profileDescription.textContent = inputProfileDescription.value;
-    closePopup(popupTypeEdit);
-  }
+  profileTitle.textContent = inputProfileTitle.value;
+  profileDescription.textContent = inputProfileDescription.value;
+  closePopup(popupTypeEdit);
 }
 
+enableValidation();
 renderInitialCards();
 
-export { inputProfileTitle, inputProfileDescription };

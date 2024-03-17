@@ -44,28 +44,32 @@
           <h3 class="popup__title">Редактировать профиль</h3>
           <form class="popup__form popup__form-profile" name="edit-profile">
             <input
+              id="name-input"
               type="text"
               name="name"
-              class="popup__input popup__input_type_name popup__input__error-border"
+              class="popup__input popup__input_type_name"
               placeholder="Имя"
               minlength="2"
               maxlength="40"
-              data-input-name-error="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
+              data-error-message="Вы пропустили это поле."
               required
             />
-            <span class="popup__input__error-text"></span>
+            <span class="name-input-error popup__input__error-text"></span>
             <input
+              id="description-input"
               type="text"
               name="description"
-              class="popup__input popup__input_type_description popup__input__error-border"
+              class="popup__input popup__input_type_description"
               placeholder="Занятие"
               minlength="2"
               maxlength="200"
-              data-input-description-error="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
+              data-error-message="Вы пропустили это поле."
               required
             />
-            <span class="popup__input__error-text">Введите данное поле</span>
-            <button type="submit" class="button popup__button popup__button-disabled">
+            <span
+              class="description-input-error popup__input__error-text"
+            ></span>
+            <button type="submit" class="button popup__button">
               Сохранить
             </button>
           </form>
@@ -77,21 +81,28 @@
           <h3 class="popup__title">Новое место</h3>
           <form class="popup__form popup__form-new-card" name="new-place">
             <input
+              id="title-input"
+              minlength="2"
+              maxlength="30"
               type="text"
               name="place-name"
               class="popup__input popup__input_type_card-name"
               placeholder="Название"
+              data-error-message="Слишком маленькое название."
               required
             />
-            <span class="popup__input__error-text">текст ошибки</span>
+            <span class="title-input-error popup__input__error-text"></span>
             <input
+              id="url-input"
               type="url"
               name="link"
               class="popup__input popup__input_type_url"
               placeholder="Ссылка на картинку"
+              data-error-message="Вы пропустили данное поле."
               required
             />
-            <button type="submit" class="button popup__button">
+            <span class="url-input-error popup__input__error-text"></span>
+            <button type="submit" class="button popup__button" disabled>
               Сохранить
             </button>
           </form>
