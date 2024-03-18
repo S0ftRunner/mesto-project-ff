@@ -84,7 +84,6 @@ function openEditProfilePopup() {
   openPopup(popupTypeEdit);
   setFormProfileAttributes();
   clearValidation(profileForm);
-
 }
 
 /**
@@ -106,7 +105,6 @@ function setFormProfileAttributes() {
     profileTitle.textContent = res.name;
     profileDescription.textContent = res.about;
   });
-
 }
 
 /**
@@ -132,9 +130,6 @@ function handleCardFormSubmit(evt) {
   };
 
   postCard(newCard)
-    .then((res) => {
-      return res.json();
-    })
     .then((res) => {
       console.log(res);
       cardsContainer.prepend(
