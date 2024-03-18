@@ -6,10 +6,9 @@ import {
   closePopupByButtonClick,
   closePopup,
 } from "./modals";
-import initialCards from "./cards";
 import { likeCard, deleteCard, createCard } from "./card";
 import { clearValidation, enableValidation } from "./validation";
-import { getCards } from "./api";
+import { getCards, postCard, updateProfile, getProfileSettings } from "./api";
 // IMPORTS
 
 // ELEMENTS
@@ -37,9 +36,6 @@ const inputProfileTitle = popupTypeEdit.querySelector(
 );
 const inputProfileDescription = popupTypeEdit.querySelector(
   ".popup__input_type_description"
-);
-const inputBorderBottomError = document.querySelector(
-  ".popup__input__error-border"
 );
 
 const closePopupsButtons = document.querySelectorAll(".popup__close");
@@ -72,6 +68,7 @@ function renderInitialCards() {
       const cardData = {
         name: card.name,
         link: card.link,
+        cardId: card._id,
       };
       cardsContainer.append(
         createCard(cardData, likeCard, deleteCard, openCardImage)
@@ -86,6 +83,8 @@ function renderInitialCards() {
 function openEditProfilePopup() {
   openPopup(popupTypeEdit);
   setFormProfileAttributes();
+  clearValidation(profileForm);
+
 }
 
 /**
@@ -101,9 +100,13 @@ function openAddCardPopup() {
  * Установка атрибутов для полей ввода редактирования профиля
  */
 function setFormProfileAttributes() {
-  inputProfileTitle.value = profileTitle.textContent;
-  inputProfileDescription.value = profileDescription.textContent;
-  clearValidation(profileForm);
+  getProfileSettings().then((res) => {
+    inputProfileTitle.value = res.name;
+    inputProfileDescription.value = res.about;
+    profileTitle.textContent = res.name;
+    profileDescription.textContent = res.about;
+  });
+
 }
 
 /**
@@ -128,9 +131,16 @@ function handleCardFormSubmit(evt) {
     link: inputNewCardLink.value,
   };
 
-  cardsContainer.prepend(
-    createCard(newCard, likeCard, deleteCard, openCardImage)
-  );
+  postCard(newCard)
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => {
+      console.log(res);
+      cardsContainer.prepend(
+        createCard(newCard, likeCard, deleteCard, openCardImage)
+      );
+    });
   closePopup(popupNewCard);
   cardImageForm.reset();
 }
@@ -141,10 +151,17 @@ function handleCardFormSubmit(evt) {
  */
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  profileTitle.textContent = inputProfileTitle.value;
-  profileDescription.textContent = inputProfileDescription.value;
+  const profileData = {
+    name: inputProfileTitle.value,
+    description: inputProfileDescription.value,
+  };
+  profileTitle.textContent = profileData.name;
+  profileDescription.textContent = profileData.description;
+  updateProfile(profileData);
+
   closePopup(popupTypeEdit);
 }
 
+setFormProfileAttributes();
 enableValidation();
 renderInitialCards();
