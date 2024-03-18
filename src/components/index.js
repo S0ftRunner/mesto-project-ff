@@ -68,8 +68,8 @@ function renderInitialCards() {
       const cardData = {
         name: card.name,
         link: card.link,
-        cardId: card._id,
       };
+      console.log(card.owner.name + " " + card.owner._id);
       cardsContainer.append(
         createCard(cardData, likeCard, deleteCard, openCardImage)
       );
@@ -104,6 +104,7 @@ function setFormProfileAttributes() {
     inputProfileDescription.value = res.about;
     profileTitle.textContent = res.name;
     profileDescription.textContent = res.about;
+    console.log(res);
   });
 }
 
@@ -130,8 +131,7 @@ function handleCardFormSubmit(evt) {
   };
 
   postCard(newCard)
-    .then((res) => {
-      console.log(res);
+    .then(() => {
       cardsContainer.prepend(
         createCard(newCard, likeCard, deleteCard, openCardImage)
       );
