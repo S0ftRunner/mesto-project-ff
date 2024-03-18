@@ -9,6 +9,7 @@ import {
 import initialCards from "./cards";
 import { likeCard, deleteCard, createCard } from "./card";
 import { clearValidation, enableValidation } from "./validation";
+import { getCards } from "./api";
 // IMPORTS
 
 // ELEMENTS
@@ -66,10 +67,16 @@ profileForm.addEventListener("submit", handleProfileFormSubmit);
  * Рендеринг начальных карт
  */
 function renderInitialCards() {
-  initialCards.forEach((card) => {
-    cardsContainer.append(
-      createCard(card, likeCard, deleteCard, openCardImage)
-    );
+  getCards().then((cards) => {
+    Array.from(cards).forEach((card) => {
+      const cardData = {
+        name: card.name,
+        link: card.link,
+      };
+      cardsContainer.append(
+        createCard(cardData, likeCard, deleteCard, openCardImage)
+      );
+    });
   });
 }
 
@@ -141,4 +148,3 @@ function handleProfileFormSubmit(evt) {
 
 enableValidation();
 renderInitialCards();
-

@@ -73,7 +73,3 @@ function setEventListeners(formElement) {
 
 export { enableValidation, clearValidation };
 
-/**
- * Задать через pattern mismatch регулярки, и для разных ситуаций вызывать разные сообщения через
- * data-атрибуты
- */
