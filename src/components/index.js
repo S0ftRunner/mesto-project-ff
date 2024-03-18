@@ -8,7 +8,7 @@ import {
 } from "./modals";
 import initialCards from "./cards";
 import { likeCard, deleteCard, createCard } from "./card";
-import { enableValidation } from "./validation";
+import { clearValidation, enableValidation } from "./validation";
 // IMPORTS
 
 // ELEMENTS
@@ -40,7 +40,6 @@ const inputProfileDescription = popupTypeEdit.querySelector(
 const inputBorderBottomError = document.querySelector(
   ".popup__input__error-border"
 );
-const errorText = document.querySelector(".popup__input__error-text");
 
 const closePopupsButtons = document.querySelectorAll(".popup__close");
 // ELEMENTS
@@ -86,7 +85,9 @@ function openEditProfilePopup() {
  * Для открытия модального окна добавления карточки
  */
 function openAddCardPopup() {
+  cardImageForm.reset();
   openPopup(popupNewCard);
+  clearValidation(cardImageForm);
 }
 
 /**
@@ -95,6 +96,7 @@ function openAddCardPopup() {
 function setFormProfileAttributes() {
   inputProfileTitle.value = profileTitle.textContent;
   inputProfileDescription.value = profileDescription.textContent;
+  clearValidation(profileForm);
 }
 
 /**

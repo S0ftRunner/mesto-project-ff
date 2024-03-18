@@ -1,3 +1,5 @@
+import { clearValidation } from "./validation";
+
 /**
  * Функция открытия попапа
  * @param {popup} popup 
@@ -36,6 +38,7 @@ function closePopupByEsc(evt) {
     closePopup(activePopup);
   }
 }
+
 
 /**
  * Функция закрытия попапа

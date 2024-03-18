@@ -5,8 +5,16 @@ function enableValidation() {
   });
 }
 
-function clearValidation() {
-  
+function clearValidation(formElement) {
+  const inputElements = Array.from(formElement.querySelectorAll('.popup__input'));
+  const formButton = formElement.querySelector('.popup__button');
+  formButton.disabled = true;
+  inputElements.forEach(inputElement => {
+    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+    inputElement.classList.remove('popup__input__error-border');
+    errorElement.textContent = "";
+
+  });
 }
 
 function toggleButtonState(inputList, buttonElement) {
@@ -62,3 +70,8 @@ function setEventListeners(formElement) {
 
 
 export { enableValidation, clearValidation};
+
+/**
+ * Задать через pattern mismatch регулярки, и для разных ситуаций вызывать разные сообщения через
+ * data-атрибуты
+ */
