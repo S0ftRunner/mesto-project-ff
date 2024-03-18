@@ -6,14 +6,15 @@ function enableValidation() {
 }
 
 function clearValidation(formElement) {
-  const inputElements = Array.from(formElement.querySelectorAll('.popup__input'));
-  const formButton = formElement.querySelector('.popup__button');
+  const inputElements = Array.from(
+    formElement.querySelectorAll(".popup__input")
+  );
+  const formButton = formElement.querySelector(".popup__button");
   formButton.disabled = true;
-  inputElements.forEach(inputElement => {
+  inputElements.forEach((inputElement) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove('popup__input__error-border');
+    inputElement.classList.remove("popup__input__error-border");
     errorElement.textContent = "";
-
   });
 }
 
@@ -33,26 +34,28 @@ function hasInvalidInput(inputList) {
   });
 }
 
-function showInputError(formElement, inputElement) {
+function showInputError(formElement, inputElement, errorMessage) {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add("popup__input__error-border");
-  inputElement.setCustomValidity(inputElement.dataset.errorMessage);  
-  errorElement.textContent = inputElement.dataset.errorMessage;
+  errorElement.textContent = errorMessage;
 }
 
 function hideInputError(formElement, inputElement) {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.remove("popup__input__error-border");
-  inputElement.setCustomValidity("");
   errorElement.textContent = "";
 }
 
 function isValid(formElement, inputElement) {
-  console.log(inputElement.value);
-  if (inputElement.value && !inputElement.validity.tooShort && !inputElement.validity.tooLong) {
+  console.log(inputElement.validity.valid);
+  if (inputElement.validity.valid) {
     hideInputError(formElement, inputElement);
+  } else if (inputElement.validity.patternMismatch) {
+    inputElement.setCustomValidity(inputElement.dataset.patternError);
+    showInputError(formElement, inputElement, inputElement.validationMessage)
   } else {
-    showInputError(formElement, inputElement);
+    inputElement.setCustomValidity("");
+    showInputError(formElement, inputElement, inputElement.validationMessage);
   }
 }
 
@@ -68,8 +71,7 @@ function setEventListeners(formElement) {
   });
 }
 
-
-export { enableValidation, clearValidation};
+export { enableValidation, clearValidation };
 
 /**
  * Задать через pattern mismatch регулярки, и для разных ситуаций вызывать разные сообщения через

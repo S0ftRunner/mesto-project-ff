@@ -51,7 +51,8 @@
               placeholder="Имя"
               minlength="2"
               maxlength="40"
-              data-error-message="Вы пропустили это поле."
+              pattern="[а-яёА-ЯЁa-zA-Z\- ]+$"
+              data-pattern-error="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
               required
             />
             <span class="name-input-error popup__input__error-text"></span>
@@ -63,7 +64,8 @@
               placeholder="Занятие"
               minlength="2"
               maxlength="200"
-              data-error-message="Вы пропустили это поле."
+              pattern="[а-яёА-ЯЁa-zA-Z\- ]+$"
+              data-pattern-error="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
               required
             />
             <span
@@ -88,7 +90,8 @@
               name="place-name"
               class="popup__input popup__input_type_card-name"
               placeholder="Название"
-              data-error-message="Слишком маленькое название."
+              pattern="[а-яёА-ЯЁa-zA-Z\- ]+$"
+              data-pattern-error="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
               required
             />
             <span class="title-input-error popup__input__error-text"></span>
