@@ -1,9 +1,3 @@
-/**
- * Мои данные:
- * Токен: 034c2434-530d-4982-835c-e099b7f755c8
- * Идентификатор группы: wff-cohort-8
- */
-
 async function getCards() {
   return fetch("https://nomoreparties.co/v1/wff-cohort-8/cards", {
     headers: {
@@ -23,8 +17,8 @@ async function getCards() {
     });
 }
 
- async function postCard(cardData) {
- return fetch("https://nomoreparties.co/v1/wff-cohort-8/cards", {
+async function postCard(cardData) {
+  return fetch("https://nomoreparties.co/v1/wff-cohort-8/cards", {
     method: "POST",
     headers: {
       authorization: "034c2434-530d-4982-835c-e099b7f755c8",
@@ -46,7 +40,6 @@ async function getCards() {
 }
 
 async function deleteCardFromHost(cardId) {
-  console.log(cardId);
   fetch(`https://nomoreparties.co/v1/wff-cohort-8/cards/${cardId}`, {
     method: "DELETE",
     headers: {
@@ -54,7 +47,7 @@ async function deleteCardFromHost(cardId) {
     },
   }).then((res) => {
     if (res.ok) {
-      console.log('карточка успушно удалена');
+      console.log("карточка успушно удалена");
       return res;
     } else {
       console.log(`Что-то пошло не так. Код ошибки: ${res.status}`);
@@ -98,10 +91,49 @@ async function getProfileSettings() {
     });
 }
 
+async function setLike(cardId) {
+ return fetch(`https://nomoreparties.co/v1/wff-cohort-8/cards/likes/${cardId}`, {
+    method: "PUT",
+    headers: {
+      authorization: "034c2434-530d-4982-835c-e099b7f755c8",
+    },
+  })
+    .then((res) => {
+      if (res.ok) {
+        console.log("Лайк поставлен");
+        return res.json();
+      }
+    })
+    .then((res) => {
+      return res;
+    });
+}
+
+async function unLike(cardId) {
+  return fetch(`https://nomoreparties.co/v1/wff-cohort-8/cards/likes/${cardId}`, {
+    method: "DELETE",
+    headers: {
+      authorization: "034c2434-530d-4982-835c-e099b7f755c8",
+    },
+  })
+    .then((res) => {
+      if (res.ok) {
+        console.log("Лайк убран");
+        return res.json();
+      }
+    })
+    .then((res) => {
+      return res;
+    });
+
+}
+
 export {
   getCards,
   postCard,
   deleteCardFromHost,
   updateProfile,
   getProfileSettings,
+  setLike,
+  unLike
 };

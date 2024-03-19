@@ -64,10 +64,11 @@ profileForm.addEventListener("submit", handleProfileFormSubmit);
  */
 function renderInitialCards() {
   Promise.all([getCards(), getProfileSettings()]).then(([cards, user]) => {
-    Array.from(cards).forEach((card) => {
-      card.userId = user._id;
+    Array.from(cards).forEach((cardData) => { 
+      // console.log(cardData);
+      cardData.userId = user._id;
       cardsContainer.append(
-        createCard(card, likeCard, deleteCard, openCardImage)
+        createCard(cardData, likeCard, deleteCard, openCardImage)
       );
     });
   });
@@ -127,7 +128,6 @@ function handleCardFormSubmit(evt) {
 
   Promise.all([postCard(newCard), getProfileSettings()])
   .then(([cardData, user]) => {
-    console.log(cardData);
     cardData.userId = user._id;
     cardsContainer.prepend(
       createCard(cardData, likeCard, deleteCard, openCardImage)

@@ -1,4 +1,4 @@
-import { deleteCardFromHost, getProfileSettings } from "./api";
+import { deleteCardFromHost, setLike, unLike } from "./api";
 /**
  * Функция создания карточки
  * @param {card} cardData
@@ -14,13 +14,22 @@ function createCard(cardData, likeCard, deleteCard, openCardImage) {
   const cardImage = cardElement.querySelector(".card__image");
   const cardTitle = cardElement.querySelector(".card__title");
   const cardLikeButton = cardElement.querySelector(".card__like-button");
-
-  cardImage.src = cardData.link;
-  cardImage.alt = cardData.name;
+  const cardLikeCounter = cardElement.querySelector(".card__like-counter");
   const cardId = cardData._id;
 
+  cardLikeCounter.textContent = cardData.likes.length;
+  cardData.likes.forEach(likeData => {
+    if (likeData._id === cardData.userId) {
+      cardLikeButton.classList.add("card__like-button_is-active");
+    }
+  })
+  cardImage.src = cardData.link;
+  cardImage.alt = cardData.name;
+
   cardTitle.textContent = cardData.name;
-  cardLikeButton.addEventListener("click", () => likeCard(cardLikeButton));
+  cardLikeButton.addEventListener("click", () =>
+    likeCard(cardLikeButton, cardId, cardLikeCounter)
+  );
   deleteButton.addEventListener("click", () =>
     deleteCard(deleteButton, cardId)
   );
@@ -30,6 +39,7 @@ function createCard(cardData, likeCard, deleteCard, openCardImage) {
     deleteButton.removeEventListener("click", () => deleteCard(deleteButton));
     deleteButton.remove();
   }
+
   return cardElement;
 }
 
@@ -48,8 +58,18 @@ function deleteCard(deleteButton, cardId) {
  * Функция лайка карточки
  * @param {button} cardLikeButton
  */
-function likeCard(cardLikeButton) {
-  cardLikeButton.classList.toggle("card__like-button_is-active");
+function likeCard(cardLikeButton, cardId, cardLikeCounter) {
+  if (!cardLikeButton.classList.contains("card__like-button_is-active")) {
+    setLike(cardId).then((cardData) => {
+      cardLikeCounter.textContent = cardData.likes.length;
+      cardLikeButton.classList.add("card__like-button_is-active");
+    });
+  } else {
+    unLike(cardId).then((cardData) => {
+      cardLikeCounter.textContent = cardData.likes.length;
+      cardLikeButton.classList.remove("card__like-button_is-active");
+    });
+  }
 }
 
 export { createCard, deleteCard, likeCard };
