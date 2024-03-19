@@ -63,13 +63,15 @@ profileForm.addEventListener("submit", handleProfileFormSubmit);
  * Рендеринг начальных карт
  */
 function renderInitialCards() {
-  getCards().then((cards) => {
+  Promise.all([getCards(), getProfileSettings()]).then(([cards, user]) => {
     Array.from(cards).forEach((card) => {
       const cardData = {
         name: card.name,
         link: card.link,
+        cardId: card.owner._id,
+        userId: user._id,
       };
-      console.log(card.owner.name + " " + card.owner._id);
+      // console.log(card.owner.name + " " + card.owner._id);
       cardsContainer.append(
         createCard(cardData, likeCard, deleteCard, openCardImage)
       );
@@ -130,12 +132,11 @@ function handleCardFormSubmit(evt) {
     link: inputNewCardLink.value,
   };
 
-  postCard(newCard)
-    .then(() => {
-      cardsContainer.prepend(
-        createCard(newCard, likeCard, deleteCard, openCardImage)
-      );
-    });
+  postCard(newCard).then(() => {
+    cardsContainer.prepend(
+      createCard(newCard, likeCard, deleteCard, openCardImage)
+    );
+  });
   closePopup(popupNewCard);
   cardImageForm.reset();
 }

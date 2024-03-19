@@ -1,10 +1,10 @@
 /**
  * Функция создания карточки
- * @param {card} cardData 
- * @param {function} likeCard 
- * @param {function} deleteCard 
- * @param {function} openCardImage 
- * @returns 
+ * @param {card} cardData
+ * @param {function} likeCard
+ * @param {function} deleteCard
+ * @param {function} openCardImage
+ * @returns
  */
 function createCard(cardData, likeCard, deleteCard, openCardImage) {
   const cardTemplate = document.querySelector("#card-template").content;
@@ -21,12 +21,17 @@ function createCard(cardData, likeCard, deleteCard, openCardImage) {
   cardLikeButton.addEventListener("click", () => likeCard(cardLikeButton));
   deleteButton.addEventListener("click", () => deleteCard(deleteButton));
   cardImage.addEventListener("click", () => openCardImage(cardImage));
+
+  if (cardData.cardId !== cardData.userId) {
+    deleteButton.removeEventListener("click", () => deleteCard(deleteButton));
+    deleteButton.remove();
+  }
   return cardElement;
 }
 
 /**
  * Функция удаления карточки
- * @param {button} deleteButton 
+ * @param {button} deleteButton
  */
 function deleteCard(deleteButton) {
   const card = deleteButton.closest(".card");
@@ -35,7 +40,7 @@ function deleteCard(deleteButton) {
 
 /**
  * Функция лайка карточки
- * @param {button} cardLikeButton 
+ * @param {button} cardLikeButton
  */
 function likeCard(cardLikeButton) {
   cardLikeButton.classList.toggle("card__like-button_is-active");
