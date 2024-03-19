@@ -65,15 +65,9 @@ profileForm.addEventListener("submit", handleProfileFormSubmit);
 function renderInitialCards() {
   Promise.all([getCards(), getProfileSettings()]).then(([cards, user]) => {
     Array.from(cards).forEach((card) => {
-      const cardData = {
-        name: card.name,
-        link: card.link,
-        cardId: card.owner._id,
-        userId: user._id,
-      };
-      // console.log(card.owner.name + " " + card.owner._id);
+      card.userId = user._id;
       cardsContainer.append(
-        createCard(cardData, likeCard, deleteCard, openCardImage)
+        createCard(card, likeCard, deleteCard, openCardImage)
       );
     });
   });
@@ -106,7 +100,6 @@ function setFormProfileAttributes() {
     inputProfileDescription.value = res.about;
     profileTitle.textContent = res.name;
     profileDescription.textContent = res.about;
-    console.log(res);
   });
 }
 
@@ -132,9 +125,10 @@ function handleCardFormSubmit(evt) {
     link: inputNewCardLink.value,
   };
 
-  postCard(newCard).then(() => {
+  postCard(newCard).then((cardData) => {
+    console.log(cardData);
     cardsContainer.prepend(
-      createCard(newCard, likeCard, deleteCard, openCardImage)
+      createCard(cardData, likeCard, deleteCard, openCardImage)
     );
   });
   closePopup(popupNewCard);

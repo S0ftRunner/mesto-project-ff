@@ -1,3 +1,4 @@
+import { deleteCardFromHost, getProfileSettings } from "./api";
 /**
  * Функция создания карточки
  * @param {card} cardData
@@ -16,13 +17,16 @@ function createCard(cardData, likeCard, deleteCard, openCardImage) {
 
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
+  const cardId = cardData._id;
 
   cardTitle.textContent = cardData.name;
   cardLikeButton.addEventListener("click", () => likeCard(cardLikeButton));
-  deleteButton.addEventListener("click", () => deleteCard(deleteButton));
+  deleteButton.addEventListener("click", () =>
+    deleteCard(deleteButton, cardId)
+  );
   cardImage.addEventListener("click", () => openCardImage(cardImage));
 
-  if (cardData.cardId !== cardData.userId) {
+  if (cardData.owner._id !== cardData.userId) {
     deleteButton.removeEventListener("click", () => deleteCard(deleteButton));
     deleteButton.remove();
   }
@@ -33,9 +37,11 @@ function createCard(cardData, likeCard, deleteCard, openCardImage) {
  * Функция удаления карточки
  * @param {button} deleteButton
  */
-function deleteCard(deleteButton) {
+function deleteCard(deleteButton, cardId) {
   const card = deleteButton.closest(".card");
-  card.remove();
+  deleteCardFromHost(cardId).then(() => {
+    card.remove();
+  });
 }
 
 /**
