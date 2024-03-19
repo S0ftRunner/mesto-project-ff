@@ -125,12 +125,14 @@ function handleCardFormSubmit(evt) {
     link: inputNewCardLink.value,
   };
 
-  postCard(newCard).then((cardData) => {
+  Promise.all([postCard(newCard), getProfileSettings()])
+  .then(([cardData, user]) => {
     console.log(cardData);
+    cardData.userId = user._id;
     cardsContainer.prepend(
       createCard(cardData, likeCard, deleteCard, openCardImage)
     );
-  });
+  })
   closePopup(popupNewCard);
   cardImageForm.reset();
 }
