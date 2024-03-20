@@ -78,14 +78,16 @@ profileAvatarForm.addEventListener("submit", handleAvatarFormSubmit);
  * Рендеринг начальных карт
  */
 function renderInitialCards() {
-  Promise.all([getCards(), getProfileSettings()]).then(([cards, user]) => {
-    Array.from(cards).forEach((cardData) => {
-      cardData.userId = user._id;
-      cardsContainer.append(
-        createCard(cardData, likeCard, deleteCard, openCardImage)
-      );
-    });
-  });
+  Promise.all([getCards(), getProfileSettings()])
+    .then(([cards, user]) => {
+      Array.from(cards).forEach((cardData) => {
+        cardData.userId = user._id;
+        cardsContainer.append(
+          createCard(cardData, likeCard, deleteCard, openCardImage)
+        );
+      });
+    })
+    .catch((err) => console.log(err));
 }
 
 /**
@@ -116,13 +118,8 @@ function openEditAvatarPopup() {
  * Установка атрибутов для полей ввода редактирования профиля
  */
 function setFormProfileAttributes() {
-  getProfileSettings().then((res) => {
-    profileAvatar.src = res.avatar;
-    inputProfileTitle.value = res.name;
-    inputProfileDescription.value = res.about;
-    profileTitle.textContent = res.name;
-    profileDescription.textContent = res.about;
-  });
+  inputProfileTitle.value = profileTitle.textContent;
+  inputProfileDescription.value = profileDescription.textContent;
 }
 
 /**
@@ -142,6 +139,8 @@ function openCardImage(image) {
  */
 function handleCardFormSubmit(evt) {
   const buttonSubmit = evt.target.querySelector(".button");
+  renderLoading(true, buttonSubmit);
+
   evt.preventDefault();
   const newCard = {
     name: inputNewCardTitle.value,
@@ -149,17 +148,18 @@ function handleCardFormSubmit(evt) {
   };
 
   Promise.all([postCard(newCard), getProfileSettings()])
-    .then(renderLoading(true, buttonSubmit))
     .then(([cardData, user]) => {
+      console.log(cardData);
       cardData.userId = user._id;
       cardsContainer.prepend(
         createCard(cardData, likeCard, deleteCard, openCardImage)
       );
     })
     .then(() => {
-      renderLoading(false, buttonSubmit);
       closePopup(popupNewCard);
-    });
+    })
+    .catch((err) => console.log(err))
+    .finally(() => renderLoading(false, buttonSubmit));
   cardImageForm.reset();
 }
 
@@ -169,34 +169,38 @@ function handleCardFormSubmit(evt) {
  */
 function handleProfileFormSubmit(evt) {
   const buttonSubmit = evt.target.querySelector(".button");
+  renderLoading(true, buttonSubmit);
   evt.preventDefault();
   const profileData = {
     name: inputProfileTitle.value,
     description: inputProfileDescription.value,
   };
-  profileTitle.textContent = profileData.name;
-  profileDescription.textContent = profileData.description;
   updateProfile(profileData)
-    .then(renderLoading(true, buttonSubmit))
+    .then((res) => {
+      profileTitle.textContent = res.name;
+      profileDescription.textContent = res.about;
+    })
     .then(() => {
-      renderLoading(false, buttonSubmit);
       closePopup(popupTypeEdit);
-    });
+    })
+    .catch((err) => console.log(err))
+    .finally(() => renderLoading(false, buttonSubmit));
 }
 
 function handleAvatarFormSubmit(evt) {
   const buttonSubmit = evt.target.querySelector(".button");
+  renderLoading(true, buttonSubmit);
   evt.preventDefault();
   const avatarLink = inputAvatarLink.value;
   setProfileAvatar(avatarLink)
     .then((res) => {
       profileAvatar.src = res.avatar;
     })
-    .then(renderLoading(true, buttonSubmit))
     .then(() => {
-      renderLoading(false, buttonSubmit);
       closePopup(profileAvatarPopup);
-    });
+    })
+    .catch((err) => console.log(err))
+    .finally(() => renderLoading(false, buttonSubmit));
 }
 
 function renderLoading(isLoading, button) {
@@ -207,6 +211,16 @@ function renderLoading(isLoading, button) {
   }
 }
 
-setFormProfileAttributes();
+function setDomProfileSettings() {
+  getProfileSettings()
+    .then((res) => {
+      profileAvatar.src = res.avatar;
+      profileTitle.textContent = res.name;
+      profileDescription.textContent = res.about;
+    })
+    .catch((err) => console.log(err));
+}
+
+setDomProfileSettings();
 enableValidation();
 renderInitialCards();

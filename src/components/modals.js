@@ -1,5 +1,3 @@
-import { clearValidation } from "./validation";
-
 /**
  * Функция открытия попапа
  * @param {popup} popup

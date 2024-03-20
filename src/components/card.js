@@ -49,9 +49,11 @@ function createCard(cardData, likeCard, deleteCard, openCardImage) {
  */
 function deleteCard(deleteButton, cardId) {
   const card = deleteButton.closest(".card");
-  deleteCardFromHost(cardId).then(() => {
-    card.remove();
-  });
+  deleteCardFromHost(cardId)
+    .then(() => {
+      card.remove();
+    })
+    .catch((err) => console.log(err));
 }
 
 /**
@@ -60,15 +62,19 @@ function deleteCard(deleteButton, cardId) {
  */
 function likeCard(cardLikeButton, cardId, cardLikeCounter) {
   if (!cardLikeButton.classList.contains("card__like-button_is-active")) {
-    setLike(cardId).then((cardData) => {
-      cardLikeCounter.textContent = cardData.likes.length;
-      cardLikeButton.classList.add("card__like-button_is-active");
-    });
+    setLike(cardId)
+      .then((cardData) => {
+        cardLikeCounter.textContent = cardData.likes.length;
+        cardLikeButton.classList.add("card__like-button_is-active");
+      })
+      .catch((err) => console.log(err));
   } else {
-    unLike(cardId).then((cardData) => {
-      cardLikeCounter.textContent = cardData.likes.length;
-      cardLikeButton.classList.remove("card__like-button_is-active");
-    });
+    unLike(cardId)
+      .then((cardData) => {
+        cardLikeCounter.textContent = cardData.likes.length;
+        cardLikeButton.classList.remove("card__like-button_is-active");
+      })
+      .catch((err) => console.log(err));
   }
 }
 
