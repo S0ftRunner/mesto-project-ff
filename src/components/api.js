@@ -7,6 +7,8 @@ async function getCards() {
     .then((res) => {
       if (res.ok) {
         return res.json();
+      } else {
+        console.log(`Что-то пошло не так. Код ошибки: ${res.status}`);
       }
     })
     .then((result) => {
@@ -70,7 +72,7 @@ async function updateProfile(profileData) {
     if (res.ok) {
       console.log("обновил данные пользователя");
     } else {
-      console.log(res.status);
+      console.log(`Что-то пошло не так. Код ошибки: ${res.status}`);
     }
   });
 }
@@ -84,6 +86,8 @@ async function getProfileSettings() {
     .then((res) => {
       if (res.ok) {
         return res.json();
+      } else {
+        console.log(`Что-то пошло не так. Код ошибки: ${res.status}`);
       }
     })
     .then((res) => {
@@ -92,16 +96,21 @@ async function getProfileSettings() {
 }
 
 async function setLike(cardId) {
- return fetch(`https://nomoreparties.co/v1/wff-cohort-8/cards/likes/${cardId}`, {
-    method: "PUT",
-    headers: {
-      authorization: "034c2434-530d-4982-835c-e099b7f755c8",
-    },
-  })
+  return fetch(
+    `https://nomoreparties.co/v1/wff-cohort-8/cards/likes/${cardId}`,
+    {
+      method: "PUT",
+      headers: {
+        authorization: "034c2434-530d-4982-835c-e099b7f755c8",
+      },
+    }
+  )
     .then((res) => {
       if (res.ok) {
         console.log("Лайк поставлен");
         return res.json();
+      } else {
+        console.log(`Что-то пошло не так. Код ошибки: ${res.status}`);
       }
     })
     .then((res) => {
@@ -110,22 +119,26 @@ async function setLike(cardId) {
 }
 
 async function unLike(cardId) {
-  return fetch(`https://nomoreparties.co/v1/wff-cohort-8/cards/likes/${cardId}`, {
-    method: "DELETE",
-    headers: {
-      authorization: "034c2434-530d-4982-835c-e099b7f755c8",
-    },
-  })
+  return fetch(
+    `https://nomoreparties.co/v1/wff-cohort-8/cards/likes/${cardId}`,
+    {
+      method: "DELETE",
+      headers: {
+        authorization: "034c2434-530d-4982-835c-e099b7f755c8",
+      },
+    }
+  )
     .then((res) => {
       if (res.ok) {
         console.log("Лайк убран");
         return res.json();
+      } else {
+        console.log(`Что-то пошло не так. Код ошибки: ${res.status}`);
       }
     })
     .then((res) => {
       return res;
     });
-
 }
 
 export {
@@ -135,5 +148,5 @@ export {
   updateProfile,
   getProfileSettings,
   setLike,
-  unLike
+  unLike,
 };
