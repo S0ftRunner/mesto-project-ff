@@ -8,7 +8,13 @@ import {
 } from "./modals";
 import { likeCard, deleteCard, createCard } from "./card";
 import { clearValidation, enableValidation } from "./validation";
-import { getCards, postCard, updateProfile, getProfileSettings } from "./api";
+import {
+  getCards,
+  postCard,
+  updateProfile,
+  getProfileSettings,
+  setProfileAvatar,
+} from "./api";
 // IMPORTS
 
 // ELEMENTS
@@ -22,7 +28,7 @@ const popupNewCard = document.querySelector(".popup_type_new-card");
 const inputNewCardTitle = popupNewCard.querySelector(
   ".popup__input_type_card-name"
 );
-const inputNewCardLink = popupNewCard.querySelector(".popup__input_type_url");
+const inputNewCardLink = popupNewCard.querySelector(".popup__input-new-card");
 
 const popupImage = document.querySelector(".popup_type_image");
 const popupImageContent = popupImage.querySelector(".popup__image");
@@ -39,11 +45,20 @@ const inputProfileDescription = popupTypeEdit.querySelector(
 );
 
 const closePopupsButtons = document.querySelectorAll(".popup__close");
+
+const profileAvatar = document.querySelector(".profile__image");
+const profileAvatarEditButton = document.querySelector(
+  ".profile__image-container"
+);
+const profileAvatarPopup = document.querySelector(".popup_type_new-avatar");
+const profileAvatarForm = document.querySelector(".popup__form-avatar");
+const inputAvatarLink = document.querySelector(".popup__input-avatar-link");
 // ELEMENTS
 
 // EVENTS
 addCardButton.addEventListener("click", openAddCardPopup);
 profileEditButton.addEventListener("click", openEditProfilePopup);
+profileAvatarEditButton.addEventListener("click", openEditAvatarPopup);
 popups.forEach((popup) => {
   popup.addEventListener("click", (evt) => closePopupByClickOverlay(evt));
 });
@@ -56,7 +71,7 @@ closePopupsButtons.forEach((closeButton) => {
 
 cardImageForm.addEventListener("submit", handleCardFormSubmit);
 profileForm.addEventListener("submit", handleProfileFormSubmit);
-
+profileAvatarForm.addEventListener("submit", handleAvatarFormSubmit);
 // EVENTS
 
 /**
@@ -64,8 +79,7 @@ profileForm.addEventListener("submit", handleProfileFormSubmit);
  */
 function renderInitialCards() {
   Promise.all([getCards(), getProfileSettings()]).then(([cards, user]) => {
-    Array.from(cards).forEach((cardData) => { 
-      // console.log(cardData);
+    Array.from(cards).forEach((cardData) => {
       cardData.userId = user._id;
       cardsContainer.append(
         createCard(cardData, likeCard, deleteCard, openCardImage)
@@ -92,11 +106,18 @@ function openAddCardPopup() {
   clearValidation(cardImageForm);
 }
 
+function openEditAvatarPopup() {
+  profileAvatarForm.reset();
+  openPopup(profileAvatarPopup);
+  clearValidation(profileAvatarForm);
+}
+
 /**
  * Установка атрибутов для полей ввода редактирования профиля
  */
 function setFormProfileAttributes() {
   getProfileSettings().then((res) => {
+    profileAvatar.src = res.avatar;
     inputProfileTitle.value = res.name;
     inputProfileDescription.value = res.about;
     profileTitle.textContent = res.name;
@@ -126,14 +147,15 @@ function handleCardFormSubmit(evt) {
     link: inputNewCardLink.value,
   };
 
-  Promise.all([postCard(newCard), getProfileSettings()])
-  .then(([cardData, user]) => {
-    cardData.userId = user._id;
-    cardsContainer.prepend(
-      createCard(cardData, likeCard, deleteCard, openCardImage)
-    );
-  })
-  closePopup(popupNewCard);
+  Promise.all([postCard(newCard), getProfileSettings()]).then(
+    ([cardData, user]) => {
+      cardData.userId = user._id;
+      cardsContainer.prepend(
+        createCard(cardData, likeCard, deleteCard, openCardImage)
+      );
+      closePopup(popupNewCard);
+    }
+  );
   cardImageForm.reset();
 }
 
@@ -149,9 +171,17 @@ function handleProfileFormSubmit(evt) {
   };
   profileTitle.textContent = profileData.name;
   profileDescription.textContent = profileData.description;
-  updateProfile(profileData);
+  updateProfile(profileData).then(closePopup(popupTypeEdit));
+}
 
-  closePopup(popupTypeEdit);
+function handleAvatarFormSubmit(evt) {
+  evt.preventDefault();
+  const avatarLink = inputAvatarLink.value;
+  setProfileAvatar(avatarLink)
+    .then((res) => {
+      profileAvatar.src = res.avatar;
+    })
+    .then(closePopup(profileAvatarPopup));
 }
 
 setFormProfileAttributes();

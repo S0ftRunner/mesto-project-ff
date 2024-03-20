@@ -22,7 +22,7 @@
         <section class="profile page__section">
           <div class="profile__image-container">
             <img
-              src="<%=require('./images/avatar.jpg')%>"
+              src=""
               alt="Аватар пользователя"
               class="profile__image"
             />
@@ -102,9 +102,8 @@
               id="url-input"
               type="url"
               name="link"
-              class="popup__input popup__input_type_url"
+              class="popup__input popup__input-new-card popup__input_type_url"
               placeholder="Ссылка на картинку"
-              data-error-message="Введите адрес сайта."
               required
             />
             <span class="url-input-error popup__input__error-text"></span>
@@ -115,16 +114,16 @@
         </div>
       </div>
       <div class="popup popup_type_new-avatar popup_is-animated">
-        <div class="popup__content">
+        <div class="popup__content popup__content-avatar">
           <button type="button" class="popup__close"></button>
           <h3 class="popup__title">Обновить аватар</h3>
-          <form class="popup__form popup__form-new-card" name="new-place">
+          <form class="popup__form popup__form-avatar" name="new-avatar">
             <input
               id="url-input"
               type="url"
               name="link"
-              class="popup__input popup__input_type_url"
-              placeholder="Ссылка на картинку"
+              class="popup__input popup__input-avatar-link popup__input_type_url"
+              placeholder="Ссылка на аватар"
               data-error-message="Введите адрес сайта."
               required
             />

@@ -141,6 +141,27 @@ async function unLike(cardId) {
     });
 }
 
+async function setProfileAvatar(avatarLink) {
+  return fetch("https://nomoreparties.co/v1/wff-cohort-8/users/me/avatar", {
+    method: "PATCH",
+    headers: {
+      authorization: "034c2434-530d-4982-835c-e099b7f755c8",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      avatar: avatarLink,
+    }),
+  }).then((res) => {
+    if (res.ok) {
+      console.log("аватар обновлен");
+      return res.json();
+    }
+  })
+  .then(res => {
+    return res;
+  });
+}
+
 export {
   getCards,
   postCard,
@@ -149,4 +170,5 @@ export {
   getProfileSettings,
   setLike,
   unLike,
+  setProfileAvatar,
 };
