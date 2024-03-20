@@ -51,7 +51,7 @@ function isValid(formElement, inputElement) {
     hideInputError(formElement, inputElement);
   } else if (inputElement.validity.patternMismatch) {
     inputElement.setCustomValidity(inputElement.dataset.patternError);
-    showInputError(formElement, inputElement, inputElement.validationMessage)
+    showInputError(formElement, inputElement, inputElement.validationMessage);
   } else {
     inputElement.setCustomValidity("");
     showInputError(formElement, inputElement, inputElement.validationMessage);
@@ -71,4 +71,3 @@ function setEventListeners(formElement) {
 }
 
 export { enableValidation, clearValidation };
-

@@ -151,15 +151,16 @@ async function setProfileAvatar(avatarLink) {
     body: JSON.stringify({
       avatar: avatarLink,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      console.log("аватар обновлен");
-      return res.json();
-    }
   })
-  .then(res => {
-    return res;
-  });
+    .then((res) => {
+      if (res.ok) {
+        console.log("аватар обновлен");
+        return res.json();
+      }
+    })
+    .then((res) => {
+      return res;
+    });
 }
 
 export {

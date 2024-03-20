@@ -18,11 +18,11 @@ function createCard(cardData, likeCard, deleteCard, openCardImage) {
   const cardId = cardData._id;
 
   cardLikeCounter.textContent = cardData.likes.length;
-  cardData.likes.forEach(likeData => {
+  cardData.likes.forEach((likeData) => {
     if (likeData._id === cardData.userId) {
       cardLikeButton.classList.add("card__like-button_is-active");
     }
-  })
+  });
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
 

@@ -2,7 +2,7 @@ import { clearValidation } from "./validation";
 
 /**
  * Функция открытия попапа
- * @param {popup} popup 
+ * @param {popup} popup
  */
 function openPopup(popup) {
   popup.classList.add("popup_is-opened");
@@ -11,7 +11,7 @@ function openPopup(popup) {
 
 /**
  * Закрытие попапа через кнопку
- * @param {button} closeButton 
+ * @param {button} closeButton
  */
 function closePopupByButtonClick(closeButton) {
   const popup = closeButton.closest(".popup");
@@ -20,7 +20,7 @@ function closePopupByButtonClick(closeButton) {
 
 /**
  * Закрытие попапа через клик по оверлею
- * @param {Event} evt 
+ * @param {Event} evt
  */
 function closePopupByClickOverlay(evt) {
   if (!evt.target.classList.contains("popup__content")) {
@@ -30,7 +30,7 @@ function closePopupByClickOverlay(evt) {
 
 /**
  * Закрытие попапа через Escape
- * @param {Event} evt 
+ * @param {Event} evt
  */
 function closePopupByEsc(evt) {
   if (evt.key === "Escape") {
@@ -39,10 +39,9 @@ function closePopupByEsc(evt) {
   }
 }
 
-
 /**
  * Функция закрытия попапа
- * @param {popup} popup 
+ * @param {popup} popup
  */
 function closePopup(popup) {
   popup.classList.remove("popup_is-opened");

@@ -149,19 +149,17 @@ function handleCardFormSubmit(evt) {
   };
 
   Promise.all([postCard(newCard), getProfileSettings()])
-  .then(renderLoading(true, buttonSubmit))
-  .then(
-    ([cardData, user]) => {
+    .then(renderLoading(true, buttonSubmit))
+    .then(([cardData, user]) => {
       cardData.userId = user._id;
       cardsContainer.prepend(
         createCard(cardData, likeCard, deleteCard, openCardImage)
       );
-    }
-  )
-  .then(() => {
-    renderLoading(false, buttonSubmit);
-    closePopup(popupNewCard);
-  });
+    })
+    .then(() => {
+      renderLoading(false, buttonSubmit);
+      closePopup(popupNewCard);
+    });
   cardImageForm.reset();
 }
 
