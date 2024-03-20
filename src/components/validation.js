@@ -47,7 +47,6 @@ function hideInputError(formElement, inputElement) {
 }
 
 function isValid(formElement, inputElement) {
-  console.log(inputElement.validity.valid);
   if (inputElement.validity.valid) {
     hideInputError(formElement, inputElement);
   } else if (inputElement.validity.patternMismatch) {

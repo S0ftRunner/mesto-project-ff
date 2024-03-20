@@ -19,14 +19,14 @@
   cursor: pointer;
 }
 
-.popup__button-disabled {
+.popup__button:disabled {
   border: 1px solid #C4C4C4;
   background-color: #FFF;
   color: #C4C4C4;
 }
 
 .popup__button:hover:disabled {
-  background-color: #FFF;
+  background-color: transparent;
   pointer-events: none;
 }
 

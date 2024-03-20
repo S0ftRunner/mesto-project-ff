@@ -141,21 +141,27 @@ function openCardImage(image) {
  * @param {Event} evt
  */
 function handleCardFormSubmit(evt) {
+  const buttonSubmit = evt.target.querySelector(".button");
   evt.preventDefault();
   const newCard = {
     name: inputNewCardTitle.value,
     link: inputNewCardLink.value,
   };
 
-  Promise.all([postCard(newCard), getProfileSettings()]).then(
+  Promise.all([postCard(newCard), getProfileSettings()])
+  .then(renderLoading(true, buttonSubmit))
+  .then(
     ([cardData, user]) => {
       cardData.userId = user._id;
       cardsContainer.prepend(
         createCard(cardData, likeCard, deleteCard, openCardImage)
       );
-      closePopup(popupNewCard);
     }
-  );
+  )
+  .then(() => {
+    renderLoading(false, buttonSubmit);
+    closePopup(popupNewCard);
+  });
   cardImageForm.reset();
 }
 
@@ -164,6 +170,7 @@ function handleCardFormSubmit(evt) {
  * @param {Event} evt
  */
 function handleProfileFormSubmit(evt) {
+  const buttonSubmit = evt.target.querySelector(".button");
   evt.preventDefault();
   const profileData = {
     name: inputProfileTitle.value,
@@ -171,17 +178,35 @@ function handleProfileFormSubmit(evt) {
   };
   profileTitle.textContent = profileData.name;
   profileDescription.textContent = profileData.description;
-  updateProfile(profileData).then(closePopup(popupTypeEdit));
+  updateProfile(profileData)
+    .then(renderLoading(true, buttonSubmit))
+    .then(() => {
+      renderLoading(false, buttonSubmit);
+      closePopup(popupTypeEdit);
+    });
 }
 
 function handleAvatarFormSubmit(evt) {
+  const buttonSubmit = evt.target.querySelector(".button");
   evt.preventDefault();
   const avatarLink = inputAvatarLink.value;
   setProfileAvatar(avatarLink)
     .then((res) => {
       profileAvatar.src = res.avatar;
     })
-    .then(closePopup(profileAvatarPopup));
+    .then(renderLoading(true, buttonSubmit))
+    .then(() => {
+      renderLoading(false, buttonSubmit);
+      closePopup(profileAvatarPopup);
+    });
+}
+
+function renderLoading(isLoading, button) {
+  if (isLoading) {
+    button.textContent = "Сохранение...";
+  } else {
+    button.textContent = "Сохранить";
+  }
 }
 
 setFormProfileAttributes();
