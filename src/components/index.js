@@ -7,7 +7,7 @@ import {
   closePopup,
 } from "./modals";
 import { likeCard, deleteCard, createCard } from "./card";
-import { clearValidation, enableValidation } from "./validation";
+import { clearValidation, enableValidation, configValidation} from "./validation";
 import {
   getCards,
   postCard,
@@ -17,7 +17,9 @@ import {
 } from "./api";
 // IMPORTS
 
+
 // ELEMENTS
+let userId;
 const cardImageForm = document.querySelector(".popup__form-new-card");
 const cardsContainer = document.querySelector(".places__list");
 const popups = document.querySelectorAll(".popup");
@@ -96,7 +98,7 @@ function renderInitialCards() {
 function openEditProfilePopup() {
   openPopup(popupTypeEdit);
   setFormProfileAttributes();
-  clearValidation(profileForm);
+  clearValidation(profileForm, configValidation);
 }
 
 /**
@@ -105,13 +107,13 @@ function openEditProfilePopup() {
 function openAddCardPopup() {
   cardImageForm.reset();
   openPopup(popupNewCard);
-  clearValidation(cardImageForm);
+  clearValidation(cardImageForm, configValidation);
 }
 
 function openEditAvatarPopup() {
   profileAvatarForm.reset();
   openPopup(profileAvatarPopup);
-  clearValidation(profileAvatarForm);
+  clearValidation(profileAvatarForm, configValidation);
 }
 
 /**
@@ -147,10 +149,10 @@ function handleCardFormSubmit(evt) {
     link: inputNewCardLink.value,
   };
 
-  Promise.all([postCard(newCard), getProfileSettings()])
-    .then(([cardData, user]) => {
+  postCard(newCard)
+    .then((cardData) => {
       console.log(cardData);
-      cardData.userId = user._id;
+      cardData.userId = userId;
       cardsContainer.prepend(
         createCard(cardData, likeCard, deleteCard, openCardImage)
       );
@@ -214,6 +216,7 @@ function renderLoading(isLoading, button) {
 function setDomProfileSettings() {
   getProfileSettings()
     .then((res) => {
+      userId = res._id;
       profileAvatar.src = res.avatar;
       profileTitle.textContent = res.name;
       profileDescription.textContent = res.about;
@@ -222,5 +225,5 @@ function setDomProfileSettings() {
 }
 
 setDomProfileSettings();
-enableValidation();
+enableValidation(configValidation);
 renderInitialCards();

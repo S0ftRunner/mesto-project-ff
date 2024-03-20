@@ -1,19 +1,26 @@
-function enableValidation() {
-  const formList = Array.from(document.querySelectorAll(".popup__form"));
+const configValidation = {
+  form: ".popup__form",
+  input: ".popup__input",
+  submitButton: ".popup__button",
+  inputTypeError: "popup__input__error-border",
+};
+
+function enableValidation(configValidation) {
+  const formList = Array.from(document.querySelectorAll(configValidation.form));
   formList.forEach((formElement) => {
-    setEventListeners(formElement);
+    setEventListeners(formElement, configValidation);
   });
 }
 
-function clearValidation(formElement) {
+function clearValidation(formElement, configValidation) {
   const inputElements = Array.from(
-    formElement.querySelectorAll(".popup__input")
+    formElement.querySelectorAll(configValidation.input)
   );
-  const formButton = formElement.querySelector(".popup__button");
+  const formButton = formElement.querySelector(configValidation.submitButton);
   formButton.disabled = true;
   inputElements.forEach((inputElement) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove("popup__input__error-border");
+    inputElement.classList.remove(configValidation.inputTypeError);
     errorElement.textContent = "";
   });
 }
@@ -21,10 +28,8 @@ function clearValidation(formElement) {
 function toggleButtonState(inputList, buttonElement) {
   if (hasInvalidInput(inputList)) {
     buttonElement.disabled = true;
-    buttonElement.classList.add("popup__button-disabled");
   } else {
     buttonElement.disabled = false;
-    buttonElement.classList.remove("popup__button-disabled");
   }
 }
 
@@ -34,40 +39,58 @@ function hasInvalidInput(inputList) {
   });
 }
 
-function showInputError(formElement, inputElement, errorMessage) {
+function showInputError(
+  formElement,
+  inputElement,
+  errorMessage,
+  configValidation
+) {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add("popup__input__error-border");
+  inputElement.classList.add(configValidation.inputTypeError);
+  console.log(inputElement);
   errorElement.textContent = errorMessage;
 }
 
-function hideInputError(formElement, inputElement) {
+function hideInputError(formElement, inputElement, configValidation) {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove("popup__input__error-border");
+  inputElement.classList.remove(configValidation.inputTypeError);
   errorElement.textContent = "";
 }
 
-function isValid(formElement, inputElement) {
+function isValid(formElement, inputElement, configValidation) {
   if (inputElement.validity.valid) {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, configValidation);
   } else if (inputElement.validity.patternMismatch) {
     inputElement.setCustomValidity(inputElement.dataset.patternError);
-    showInputError(formElement, inputElement, inputElement.validationMessage);
+    showInputError(
+      formElement,
+      inputElement,
+      inputElement.validationMessage,
+      configValidation
+    );
   } else {
     inputElement.setCustomValidity("");
-    showInputError(formElement, inputElement, inputElement.validationMessage);
+    showInputError(
+      formElement,
+      inputElement,
+      inputElement.validationMessage,
+      configValidation
+    );
   }
 }
 
-function setEventListeners(formElement) {
-  const formButton = formElement.querySelector(".popup__button");
-  const inputList = Array.from(formElement.querySelectorAll(".popup__input"));
+function setEventListeners(formElement, configValidation) {
+  const formButton = formElement.querySelector(configValidation.submitButton);
+  const inputList = Array.from(
+    formElement.querySelectorAll(configValidation.input)
+  );
   toggleButtonState(inputList, formButton);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", () => {
-      isValid(formElement, inputElement, formButton);
+      isValid(formElement, inputElement, configValidation);
       toggleButtonState(inputList, formButton);
     });
   });
 }
 
-export { enableValidation, clearValidation };
+export { enableValidation, clearValidation, configValidation };
