@@ -1,10 +1,3 @@
-const configValidation = {
-  form: ".popup__form",
-  input: ".popup__input",
-  submitButton: ".popup__button",
-  inputTypeError: "popup__input__error-border",
-};
-
 function enableValidation(configValidation) {
   const formList = Array.from(document.querySelectorAll(configValidation.form));
   formList.forEach((formElement) => {
@@ -93,4 +86,4 @@ function setEventListeners(formElement, configValidation) {
   });
 }
 
-export { enableValidation, clearValidation, configValidation };
+export { enableValidation, clearValidation };

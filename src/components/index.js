@@ -7,7 +7,7 @@ import {
   closePopup,
 } from "./modals";
 import { likeCard, deleteCard, createCard } from "./card";
-import { clearValidation, enableValidation, configValidation} from "./validation";
+import { clearValidation, enableValidation } from "./validation";
 import {
   getCards,
   postCard,
@@ -17,8 +17,13 @@ import {
 } from "./api";
 // IMPORTS
 
-
 // ELEMENTS
+const configValidation = {
+  form: ".popup__form",
+  input: ".popup__input",
+  submitButton: ".popup__button",
+  inputTypeError: "popup__input__error-border",
+};
 let userId;
 const cardImageForm = document.querySelector(".popup__form-new-card");
 const cardsContainer = document.querySelector(".places__list");
@@ -83,6 +88,10 @@ function renderInitialCards() {
   Promise.all([getCards(), getProfileSettings()])
     .then(([cards, user]) => {
       Array.from(cards).forEach((cardData) => {
+        userId = user._id;
+        profileAvatar.src = user.avatar;
+        profileTitle.textContent = user.name;
+        profileDescription.textContent = user.about;
         cardData.userId = user._id;
         cardsContainer.append(
           createCard(cardData, likeCard, deleteCard, openCardImage)
@@ -162,7 +171,6 @@ function handleCardFormSubmit(evt) {
     })
     .catch((err) => console.log(err))
     .finally(() => renderLoading(false, buttonSubmit));
-  cardImageForm.reset();
 }
 
 /**
@@ -213,17 +221,5 @@ function renderLoading(isLoading, button) {
   }
 }
 
-function setDomProfileSettings() {
-  getProfileSettings()
-    .then((res) => {
-      userId = res._id;
-      profileAvatar.src = res.avatar;
-      profileTitle.textContent = res.name;
-      profileDescription.textContent = res.about;
-    })
-    .catch((err) => console.log(err));
-}
-
-setDomProfileSettings();
 enableValidation(configValidation);
 renderInitialCards();
