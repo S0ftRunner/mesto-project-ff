@@ -6,21 +6,17 @@ const config = {
   },
 };
 
-async function getCards() {
+function getCards() {
   return fetch(`${config.baseUrl}cards`, {
     headers: {
       authorization: config.headers.authorization,
     },
-  })
-    .then((res) => {
-      return checkStatus(res);
-    })
-    .then((result) => {
-      return result;
-    });
+  }).then((res) => {
+    return checkStatus(res);
+  });
 }
 
-async function postCard(cardData) {
+function postCard(cardData) {
   return fetch(`${config.baseUrl}cards`, {
     method: "POST",
     headers: {
@@ -28,16 +24,12 @@ async function postCard(cardData) {
       "Content-Type": config.headers["Content-Type"],
     },
     body: JSON.stringify(cardData),
-  })
-    .then((res) => {
-      return checkStatus(res);
-    })
-    .then((result) => {
-      return result;
-    });
+  }).then((res) => {
+    return checkStatus(res);
+  });
 }
 
-async function deleteCardFromHost(cardId) {
+function deleteCardFromHost(cardId) {
   fetch(`${config.baseUrl}cards/${cardId}`, {
     method: "DELETE",
     headers: {
@@ -48,7 +40,7 @@ async function deleteCardFromHost(cardId) {
   });
 }
 
-async function updateProfile(profileData) {
+function updateProfile(profileData) {
   return fetch(`${config.baseUrl}users/me`, {
     method: "PATCH",
     headers: {
@@ -64,51 +56,39 @@ async function updateProfile(profileData) {
   });
 }
 
-async function getProfileSettings() {
+function getProfileSettings() {
   return fetch(`${config.baseUrl}users/me`, {
     headers: {
       authorization: config.headers.authorization,
     },
-  })
-    .then((res) => {
-      return checkStatus(res);
-    })
-    .then((res) => {
-      return res;
-    });
+  }).then((res) => {
+    return checkStatus(res);
+  });
 }
 
-async function setLike(cardId) {
+function setLike(cardId) {
   return fetch(`${config.baseUrl}cards/likes/${cardId}`, {
     method: "PUT",
     headers: {
       authorization: config.headers.authorization,
     },
-  })
-    .then((res) => {
-      return checkStatus(res);
-    })
-    .then((res) => {
-      return res;
-    });
+  }).then((res) => {
+    return checkStatus(res);
+  });
 }
 
-async function unLike(cardId) {
+function unLike(cardId) {
   return fetch(`${config.baseUrl}cards/likes/${cardId}`, {
     method: "DELETE",
     headers: {
       authorization: config.headers.authorization,
     },
-  })
-    .then((res) => {
-      return checkStatus(res);
-    })
-    .then((res) => {
-      return res;
-    });
+  }).then((res) => {
+    return checkStatus(res);
+  });
 }
 
-async function setProfileAvatar(avatarLink) {
+function setProfileAvatar(avatarLink) {
   return fetch(`${config.baseUrl}users/me/avatar`, {
     method: "PATCH",
     headers: {
@@ -118,13 +98,9 @@ async function setProfileAvatar(avatarLink) {
     body: JSON.stringify({
       avatar: avatarLink,
     }),
-  })
-    .then((res) => {
-      return checkStatus(res);
-    })
-    .then((res) => {
-      return res;
-    });
+  }).then((res) => {
+    return checkStatus(res);
+  });
 }
 
 function checkStatus(res) {
