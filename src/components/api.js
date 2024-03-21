@@ -30,7 +30,7 @@ function postCard(cardData) {
 }
 
 function deleteCardFromHost(cardId) {
-  fetch(`${config.baseUrl}cards/${cardId}`, {
+  return fetch(`${config.baseUrl}cards/${cardId}`, {
     method: "DELETE",
     headers: {
       authorization: config.headers.authorization,
